@@ -110,32 +110,3 @@ select cd.continent , cd.location , cd.date , cd.population , cv.new_vaccination
     from Covid_Deaths cd join Covid_Vaccinations cv 
     on cd.location = cv.location and cd.date = cv.date 
     where cd.continent is not null  
-
-
--- SQL queries for visualisation 
-
-Select SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, SUM(cast(new_deaths as int))/SUM(New_Cases)*100 as DeathPercentage
-from Covid_Deaths
-where continent is not null 
-order by 1,2 
-
-select location, SUM(cast(new_deaths as int)) as TotalDeathCount
-From Covid_Deaths
-Where continent is null -- continent wise break up
-and location not in ('World', 'European Union', 'International')
-Group by location
-order by TotalDeathCount desc 
-
--- using coalesce as tableau converts numeric dtype to string because of 'NULL' (case statement can also be used : select case when total_cases is not null then total_cases else 0 end as active_cases)
-
-Select Location, coalesce(Population,0) as Population, coalesce(MAX(total_cases),0) as HighestInfectionCount,  coalesce(Max((total_cases/population))*100,0) as PercentPopulationInfected
-From Covid_Deaths
-Group by Location, Population
-order by PercentPopulationInfected desc 
-
--- Breakup by date 
-
-Select Location, coalesce(Population,0) as population,date, coalesce(MAX(total_cases),0) as HighestInfectionCount, coalesce(Max((total_cases/population))*100,0) as PercentPopulationInfected
-From Covid_Deaths 
-Group by Location, Population, date
-order by PercentPopulationInfected desc 
