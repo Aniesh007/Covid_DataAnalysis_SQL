@@ -30,19 +30,19 @@ from Covid_Deaths where location = 'india' and continent is not null order by 1,
 
 select location , population , max(total_cases) as highest_cases , max((total_cases/population))*100 as 'infected %' 
 from Covid_Deaths where continent is not null
-group by location , population
+group by location
 order by 4 desc ; 
 
 Select Location, Population,date, MAX(total_cases) as HighestInfectionCount,  Max((total_cases/population))*100 as PercentPopulationInfected
 from Covid_Deaths
-Group by Location, Population, date
+Group by Location,date
 order by PercentPopulationInfected desc 
 
 -- countries with highest death rates 
 
 select location , population , max(total_deaths) as highest_death_count , max((total_deaths/population))*100 as 'death %' 
 from Covid_Deaths where continent is not null
-group by location , population
+group by location
 order by 4 desc ; 
 
 select location , max(total_deaths) as highest_death_count 
